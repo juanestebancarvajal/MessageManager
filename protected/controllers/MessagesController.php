@@ -51,7 +51,12 @@ class MessagesController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-            Yii::app()->amqp->exchange('amq.fanout')->publish('some message','some.route');
+            Yii::app()->rabbitMQ->declareExchange('exchange.mailService', 'topic');
+Yii::app()->rabbitMQ->bind($queue, 'exchange.mailService', 'mail');
+Yii::app()->rabbitMQ->setQoS('0', '1', '0');
+Yii::app()->rabbitMQ->registerCallback(array($this, 'myCallback'));
+Yii::app()->rabbitMQ->consume($queue, $this->id);
+Yii::app()->rabbitMQ->wait();
             var_dump("Hello World!");
             die;
 	}

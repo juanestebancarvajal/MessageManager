@@ -19,6 +19,7 @@ return array(
 		'application.models.*',
 		'application.components.*',
                 'application.extensions.gautoloader.*',/*https://gist.github.com/4234540**/
+                 
 
 	),
 
@@ -37,10 +38,15 @@ return array(
 
 	// application components
 	'components'=>array(
-            
-'amqp' => array(
-                    'class' => 'application.components.AMQP.CAMQP',
-                    'host'  => '54.88.149.208'
+                'rabbitMQ' => array(
+                    'class' => 'application.components.YiiAMQP.Client',
+                    'connection' => array(
+                        'host' => '54.88.149.208',
+                        'port' => '5672',
+                        'vhost' => '/',
+                        'user' => 'guest',
+                        'password' => 'guest'
+                    )
                 ),
                 'autoloader'=>array(
                         'class'=>'ext.gautoloader.EAutoloader'
